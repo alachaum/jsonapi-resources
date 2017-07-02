@@ -333,8 +333,8 @@ module JSONAPI
             h[key][:data] = to_many ? [] : nil
           end
 
-          fragments = source.preloaded_fragments[key]
-          if fragments.nil?
+          fragments = (source.preloaded_fragments[key] || []).compact
+          if fragments.empty?
             # The resources we want were not preloaded, we'll have to bypass the cache.
             # This happens when including through belongs_to polymorphic relationships
             if real_res.nil?
@@ -343,6 +343,7 @@ module JSONAPI
             relation_resources = [real_res.public_send(rel_name)].flatten(1).compact
             fragments = relation_resources.map{|r| [r.id, r]}.to_h
           end
+
           fragments.each do |id, f|
             add_resource(f, ia)
 
