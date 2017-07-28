@@ -1190,7 +1190,7 @@ module JSONAPI
             rel_name = serializer.key_formatter.format(rel_name)
             prefilling_resources.map! do |res|
               res.preloaded_fragments[rel_name] ||= {}
-              res.preloaded_fragments[rel_name].values
+              res.preloaded_fragments[rel_name].values.compact
             end
             prefilling_resources.flatten!(1)
           end
@@ -1228,6 +1228,7 @@ module JSONAPI
           id_rows.each do |row|
             res = resources[row.first]
             path.each_with_index do |rel_name, index|
+              break unless res
               rel_name = serializer.key_formatter.format(rel_name)
               rel_id = row[index+1]
               assoc_rels = res.preloaded_fragments[rel_name]
