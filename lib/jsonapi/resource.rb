@@ -1247,8 +1247,20 @@ module JSONAPI
         quoted_attrs = attrs.map do |attr|
           quoted_table = conn.quote_table_name(attr.relation.table_alias || attr.relation.name)
           quoted_column = conn.quote_column_name(attr.name)
-          "#{quoted_table}.#{quoted_column}"
+          field_name = "#{quoted_table}.#{quoted_column}"
+
+          # Alias id fields using 'AS' to prevent undesired type casting using the
+          # parent model instead of the child one (Rails bug). If a parent model
+          # has an id set to integer and a child model has an id set to string then
+          # the child id will be caster to integer...which will result in an incorrect id
+          # See: https://github.com/rails/rails/issues/32856
+          if attr.name == 'id'
+            field_name = "#{field_name} AS '#{quoted_table}.#{quoted_column}'"
+          end
+
+          field_name
         end
+
         relation.pluck(*quoted_attrs)
       end
     end

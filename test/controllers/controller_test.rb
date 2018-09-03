@@ -232,6 +232,13 @@ class PostsControllerTest < ActionController::TestCase
     assert_equal 2, json_response['data'].size
   end
 
+  def test_index_filter_by_ids_and_include_related_with_different_id_type
+    assert_cacheable_get :index, params: { filter: {id: '2'}, include: 'masterRating' }
+    assert_response :success
+    assert_equal 1, json_response['data'].size
+    assert_equal 1, json_response['included'].size
+  end
+
   def test_index_filter_by_ids_and_include_related
     assert_cacheable_get :index, params: {filter: {id: '2'}, include: 'comments'}
     assert_response :success

@@ -33,6 +33,14 @@ ActiveRecord::Schema.define do
     t.timestamps null: false
   end
 
+  create_table :master_ratings, force: true, id: false do |t|
+    t.string     :id, limit: 36, null: false
+    t.string     :title
+    t.integer    :post_id
+    t.timestamps null: false
+  end
+  add_index "master_ratings", ["id"], name: "index_master_ratings_on_id", unique: true
+
   create_table :comments, force: true do |t|
     t.text       :body
     t.belongs_to :post, index: true
@@ -337,10 +345,16 @@ class AuthorDetail < ActiveRecord::Base
   belongs_to :author, class_name: 'Person', foreign_key: 'person_id'
 end
 
+class MasterRating < ActiveRecord::Base
+  self.primary_key = 'id'
+  belongs_to :post
+end
+
 class Post < ActiveRecord::Base
   belongs_to :author, class_name: 'Person', foreign_key: 'author_id'
   belongs_to :writer, class_name: 'Person', foreign_key: 'author_id'
   has_many :comments
+  has_one :master_rating
   has_and_belongs_to_many :tags, join_table: :posts_tags
   has_many :special_post_tags, source: :tag
   has_many :special_tags, through: :special_post_tags, source: :tag
@@ -1037,6 +1051,12 @@ module ParentApi
   end
 end
 
+class MasterRatingResource < JSONAPI::Resource
+  attribute :title
+
+  has_one :post
+end
+
 class PostResource < JSONAPI::Resource
   attribute :title
   attribute :body
@@ -1044,6 +1064,7 @@ class PostResource < JSONAPI::Resource
 
   has_one :author, class_name: 'Person'
   has_one :section
+  has_one :master_rating, foreign_key_on: :related
   has_many :tags, acts_as_set: true, inverse_relationship: :posts, eager_load_on_include: false
   has_many :comments, acts_as_set: false, inverse_relationship: :post
 
@@ -1093,7 +1114,7 @@ class PostResource < JSONAPI::Resource
     end
   end
 
-  filters :title, :author, :tags, :comments
+  filters :title, :author, :master_rating, :tags, :comments
   filter :id, verify: ->(values, context) {
     verify_keys(values, context)
     return values
@@ -1398,6 +1419,8 @@ end
 
 module Api
   module V1
+    class MasterRatingResource < MasterRatingResource; end
+
     class WriterResource < JSONAPI::Resource
       attributes :name, :email
       model_name 'Person'
@@ -1415,6 +1438,7 @@ module Api
       attribute :body
       attribute :subject
 
+      has_one :master_rating
       has_one :writer, foreign_key: 'author_id', class_name: 'Writer'
       has_one :section
       has_many :comments, acts_as_set: false
@@ -1454,6 +1478,7 @@ module Api
   module V2
     class PreferencesResource < PreferencesResource; end
     class PersonResource < PersonResource; end
+    class MasterRatingResource < MasterRatingResource; end
     class PostResource < PostResource; end
 
     class BookResource < JSONAPI::Resource
@@ -1548,6 +1573,7 @@ end
 
 module Api
   module V3
+    class MasterRatingResource < MasterRatingResource; end
     class PostResource < PostResource; end
     class PreferencesResource < PreferencesResource; end
   end
@@ -1555,6 +1581,7 @@ end
 
 module Api
   module V4
+    class MasterRatingResource < MasterRatingResource; end
     class PostResource < PostResource; end
     class PersonResource < PersonResource; end
     class ExpenseEntryResource < ExpenseEntryResource; end
@@ -1602,6 +1629,7 @@ module Api
     end
 
     class PersonResource < PersonResource; end
+    class MasterRatingResource < MasterRatingResource; end
     class PostResource < PostResource; end
     class TagResource < TagResource; end
     class SectionResource < SectionResource; end
@@ -1616,6 +1644,7 @@ module Api
   module V6
     class PersonResource < PersonResource; end
     class TagResource < TagResource; end
+    class MasterRatingResource < MasterRatingResource; end
 
     class SectionResource < SectionResource
       has_many :posts

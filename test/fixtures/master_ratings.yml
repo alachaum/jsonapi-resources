@@ -1,0 +1,14 @@
+master_rating_1:
+  id: "5ds4f5sd4f54sd5f"
+  title: Foo
+  post_id: 1
+
+master_rating_2:
+  id: "bv4b5vc4b54c54bfd"
+  title: Bar
+  post_id: 2
+
+master_rating_3:
+  id: "87ui8y7iy54545e45"
+  title: Baz
+  post_id: 3

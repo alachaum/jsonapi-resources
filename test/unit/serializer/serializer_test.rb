@@ -52,6 +52,12 @@ class SerializerTest < ActionDispatch::IntegrationTest
                 related: 'http://example.com/posts/1/author'
               }
             },
+            masterRating: {
+              links: {
+                self: "http://example.com/posts/1/relationships/masterRating",
+                related: "http://example.com/posts/1/masterRating"
+              }
+            },
             tags: {
               links: {
                 self: 'http://example.com/posts/1/relationships/tags',
@@ -95,6 +101,12 @@ class SerializerTest < ActionDispatch::IntegrationTest
             subject: 'New post'
           },
           relationships: {
+            masterRating: {
+              links: {
+                self: "http://example.com/api/v1/posts/1/relationships/masterRating",
+                related: "http://example.com/api/v1/posts/1/masterRating"
+              }
+            },
             section: {
               links:{
                 self: 'http://example.com/api/v1/posts/1/relationships/section',
@@ -174,6 +186,12 @@ class SerializerTest < ActionDispatch::IntegrationTest
               links: {
                 self: '/posts/1/relationships/section',
                 related: '/posts/1/section'
+              }
+            },
+            masterRating: {
+              links: {
+                self: "/posts/1/relationships/masterRating",
+                related: "/posts/1/masterRating"
               }
             },
             author: {
@@ -288,6 +306,12 @@ class SerializerTest < ActionDispatch::IntegrationTest
                 id: '1'
               }
             },
+            master_rating: {
+              links: {
+                self: "/posts/1/relationships/masterRating",
+                related: "/posts/1/masterRating"
+              }
+            },
             tags: {
               links: {
                 self: '/posts/1/relationships/tags',
@@ -379,6 +403,12 @@ class SerializerTest < ActionDispatch::IntegrationTest
               links: {
                 self: '/posts/1/relationships/author',
               related: '/posts/1/author'
+              }
+            },
+            masterRating: {
+              links: {
+                self: "/posts/1/relationships/masterRating",
+                related: "/posts/1/masterRating"
               }
             },
             tags: {
@@ -710,6 +740,16 @@ class SerializerTest < ActionDispatch::IntegrationTest
                   id: '1'
                 }
               },
+              masterRating: {
+                links: {
+                  self: "/posts/1/relationships/masterRating",
+                  related: "/posts/1/masterRating"
+                },
+                data: {
+                  type: 'masterRatings',
+                  id: '5ds4f5sd4f54sd5f'
+                }
+              },
               tags: {
                 links: {
                   self: '/posts/1/relationships/tags',
@@ -758,6 +798,16 @@ class SerializerTest < ActionDispatch::IntegrationTest
                 data: {
                   type: 'people',
                   id: '1'
+                }
+              },
+              masterRating: {
+                links: {
+                  self: "/posts/2/relationships/masterRating",
+                  related: "/posts/2/masterRating"
+                },
+                data: {
+                  type: 'masterRatings',
+                  id: 'bv4b5vc4b54c54bfd'
                 }
               },
               tags: {
@@ -1013,6 +1063,12 @@ class SerializerTest < ActionDispatch::IntegrationTest
                   related: '/posts/1/section'
                 }
               },
+              masterRating: {
+                links: {
+                  self: "/posts/1/relationships/masterRating",
+                  related: "/posts/1/masterRating"
+                }
+              },
               author: {
                 links: {
                   self: '/posts/1/relationships/author',
@@ -1059,6 +1115,12 @@ class SerializerTest < ActionDispatch::IntegrationTest
                 links: {
                   self: '/posts/2/relationships/author',
                   related: '/posts/2/author'
+                }
+              },
+              masterRating: {
+                links: {
+                  self: "/posts/2/relationships/masterRating",
+                  related: "/posts/2/masterRating"
                 }
               },
               tags: {
@@ -2238,6 +2300,12 @@ class SerializerTest < ActionDispatch::IntegrationTest
                   related: "/posts/2/author"
                 }
               },
+              masterRating: {
+                links: {
+                  self: "/posts/2/relationships/masterRating",
+                  related: "/posts/2/masterRating"
+                }
+              },
               section: {
                 links: {
                   self: "/posts/2/relationships/section",
@@ -2276,6 +2344,12 @@ class SerializerTest < ActionDispatch::IntegrationTest
                   related: "/posts/1/author"
                 }
               },
+              masterRating: {
+                links: {
+                  self: "/posts/1/relationships/masterRating",
+                  related: "/posts/1/masterRating"
+                }
+              },
               section: {
                 links: {
                   self: "/posts/1/relationships/section",
@@ -2312,6 +2386,12 @@ class SerializerTest < ActionDispatch::IntegrationTest
                 links: {
                   self: "/posts/11/relationships/author",
                   related: "/posts/11/author"
+                }
+              },
+              masterRating: {
+                links: {
+                  self: "/posts/11/relationships/masterRating",
+                  related: "/posts/11/masterRating"
                 }
               },
               section: {
