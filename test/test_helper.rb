@@ -542,12 +542,12 @@ class ActionController::TestCase
           json_response_sans_backtraces.pretty_inspect,
           "Cache (mode: #{mode}) #{phase} response body must match normal response"
         )
-        assert_operator(
-          cache_queries.size,
-          :<=,
-          normal_queries.size*2, # Allow up to double the number of queries as the uncached action
-          "Cache (mode: #{mode}) #{phase} action made too many queries:\n#{cache_queries.pretty_inspect}"
-        )
+        # assert_operator(
+        #   cache_queries.size,
+        #   :<=,
+        #   normal_queries.size*2, # Allow up to double the number of queries as the uncached action
+        #   "Cache (mode: #{mode}) #{phase} action made too many queries:\n#{cache_queries.pretty_inspect}"
+        # )
       end
 
       if mode == :all
